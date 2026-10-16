@@ -2,7 +2,7 @@
 
 Alle noemenswaardige wijzigingen in de Flex2Rijk CLI. De opmaak volgt [Keep a Changelog](https://keepachangelog.com/nl/1.1.0/) en de versienummers volgen [Semantic Versioning](https://semver.org/lang/nl/).
 
-## 0.2.0 - nog niet uitgebracht
+## 0.2.0 - 2026-10-16
 
 Deze versie dicht de manieren waarop je wachtwoord kon uitlekken of een onbetrouwbaar bestand kon starten.
 
@@ -11,6 +11,7 @@ Deze versie dicht de manieren waarop je wachtwoord kon uitlekken of een onbetrou
 - **macOS:** het wachtwoord ging als argument naar `security` en stond zo in de proceslijst. Het gaat nu via stdin.
 - **macOS:** elk proces kon het opgeslagen wachtwoord zonder vragen uitlezen. Nu vraagt macOS bij elke login om toestemming. Een wachtwoord uit 0.1.0 zet de eerstvolgende login vanzelf om.
 - **Linux:** zonder Secret Service sloeg 0.1.0 het wachtwoord onversleuteld (base64) op in `~/.local/share/python_keyring/keyring_pass.cfg`. De tool weigert nu onveilige opslag, en `--setup` haalt het oude wachtwoord uit dat bestand.
+- **Linux:** `--setup` kon crashen als de keyring-bibliotheek ontbrak, omdat de backend-controle de controle miste die de andere keyring-functies hebben. Die is nu ook daar.
 - Het ICA-bestand kreeg de naam die de server voorstelde. Een vervalste server kon zo het pad of een extensie kiezen die bij het openen iets uitvoert. Het bestand heet nu altijd `session.ica`.
 - De screenshot bij een time-out komt in een privébestand in plaats van op een vast pad in `/tmp`.
 - `security` en `open` worden met hun volledige pad aangeroepen, zodat een ander programma met dezelfde naam in je `PATH` het wachtwoord niet kan onderscheppen.
