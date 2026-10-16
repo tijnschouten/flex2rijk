@@ -8,3 +8,4 @@ dist/
 *.egg-info/
 /tmp/flex2rijk_*
 flex2rijk_ica_debug.png
+.coverage

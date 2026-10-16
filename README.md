@@ -1,4 +1,4 @@
-# flex2rijk
+# Flex2Rijk CLI
 
 [![PyPI version](https://badge.fury.io/py/flex2rijk.svg)](https://badge.fury.io/py/flex2rijk)
 [![CI & Publish](https://github.com/tijnschouten/flex2rijk/actions/workflows/pypi-publish.yml/badge.svg)](https://github.com/tijnschouten/flex2rijk/actions/workflows/pypi-publish.yml)
@@ -8,15 +8,15 @@ Automatiseert de login op flex2rijk.nl:
 - **Cross-platform:** Werkt op macOS, Windows en Linux.
 - **Veilig:** Slaat credentials op in je systeem-keychain (macOS Keychain, Windows Credential Manager, Linux Secret Service) via `keyring`.
 - **Modern:** Volledig herschreven in moderne Python (Pathlib, Type Hinting).
-- **Robuust:** Bevat unit tests en strikte linting (Ruff, MyPy, Pylint).
+- **Robuust:** Bevat unit tests met 100% coverage en strikte linting (Ruff, MyPy, Bandit).
 
 ## Disclaimer
 
-**Let op:** Deze tool is **geen** officieel product van flex2rijk of de betrokken overheidsinstanties. De auteur is op geen enkele wijze geassocieerd met flex2rijk.nl.
+**Let op:** Deze tool is **geen** officieel product van Flex2Rijk of de betrokken overheidsinstanties. De auteur is op geen enkele wijze geassocieerd met flex2rijk.nl.
 
 - **Geen Support:** Deze tool wordt geleverd "as-is" zonder enige vorm van garantie of support.
 - **Eigen Risico:** Het gebruik van deze tool is volledig voor eigen risico. De auteur is niet verantwoordelijk voor eventuele schade, verlies van gegevens, of beveiligingsincidenten (zoals het verlies van wachtwoorden).
-- **Doel:** Deze tool is uitsluitend bedoeld om de login-flow te automatiseren voor gebruikers die reeds rechtmatige toegang hebben tot de flex2rijk omgeving.
+- **Doel:** Deze tool is uitsluitend bedoeld om de login-flow te automatiseren voor gebruikers die reeds rechtmatige toegang hebben tot de Flex2Rijk-omgeving.
 
 ---
 
@@ -37,6 +37,18 @@ Sla je gebruikersnaam en wachtwoord veilig op in je systeem-keychain:
 ```bash
 flex2rijk --setup
 ```
+
+Sla je niets op, dan vraagt de tool bij elke login om je gebruikersnaam en wachtwoord. Eerder opgeslagen gegevens verwijder je met `flex2rijk --setup --no-store`.
+
+Heb je de setup gedaan met versie 0.1.0? Op macOS zet de eerstvolgende login je wachtwoord vanzelf over naar de strengere toegangsregels hieronder. Op Linux haalt `flex2rijk --setup` het wachtwoord weg dat versie 0.1.0 onversleuteld in `~/.local/share/python_keyring/keyring_pass.cfg` kon zetten.
+
+### Hoe je wachtwoord wordt bewaard
+
+- **macOS:** het wachtwoord staat in je Keychain, zonder vertrouwde apps. Bij elke login vraagt macOS of `security` het mag uitlezen. Kies **Sta toe** om alleen deze keer toegang te geven. Kies je **Sta altijd toe**, dan kan elk proces op je Mac het wachtwoord voortaan zonder vragen uitlezen. Die keuze is aan jou.
+- **Linux:** het wachtwoord staat in de Secret Service (GNOME Keyring, KWallet). Is er geen Secret Service, bijvoorbeeld op een server of in WSL, dan weigert de tool op te slaan in plaats van het wachtwoord onversleuteld in een bestand te zetten. Sla de setup dan over: bij elke login vraagt de tool om je gegevens.
+- **Windows:** het wachtwoord staat in Windows Credential Manager.
+
+Op Linux en Windows kan elk proces dat onder jouw account draait het opgeslagen wachtwoord lezen zolang je bent ingelogd. Een toestemmingsvraag per uitlezing bestaat daar niet. Wil je dat niet, gebruik dan `--no-store`.
 
 ---
 

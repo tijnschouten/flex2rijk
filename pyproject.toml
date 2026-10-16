@@ -1,6 +1,6 @@
 [project]
 name = "flex2rijk"
-version = "0.1.0"
+version = "0.2.0"
 description = "Automatische login tool voor flex2rijk.nl Citrix werkplek"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -14,19 +14,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "playwright>=1.40",
-    "keyring>=24.0.0",
-    "keyrings-alt>=5.0.2",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-mock>=3.10.0",
-    "ruff>=0.1.0",
-    "mypy>=1.0.0",
-    "pylint>=3.0.0",
-    "pre-commit>=3.0.0",
+    "playwright==1.63.0",
+    "keyring==25.7.0",
 ]
 
 [tool.ruff]
@@ -34,24 +23,36 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "B", "C90", "I"]
-# C901 is the McCabe complexity check
-ignore = []
+select = [
+    "E",  # pycodestyle errors
+    "F",  # Pyflakes
+    "B",  # flake8-bugbear
+    "I",  # isort
+    "C90",  # McCabe complexity
+    "PL",  # Pylint
+    "D101",  # missing docstring in public class
+    "D102",  # missing docstring in public method
+    "D103",  # missing docstring in public function
+    "N",  # pep8-naming
+    "A",  # shadowed builtins
+    "ARG",  # unused arguments
+    "BLE",  # blind except
+    "SLF",  # private member access
+    "RET",  # return statements
+    "SIM",  # simplifiable code
+    "C4",  # comprehensions
+    "PIE",  # unnecessary code
+    "UP",  # pyupgrade
+    "PTH",  # pathlib instead of os.path
+    "PGH",  # specific noqa and type: ignore codes
+    "RUF",  # ruff-specific rules
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["SLF001", "PLR2004"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 4
-
-[tool.pylint.master]
-ignore = ["tests"]
-
-[tool.pylint.messages_control]
-disable = [
-    "import-outside-toplevel",
-    "missing-module-docstring",
-]
-
-[tool.pylint.design]
-# Design configuration
 
 [tool.mypy]
 python_version = "3.11"
@@ -61,6 +62,14 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+addopts = ["--cov", "--cov-report=term-missing"]
+
+[tool.coverage.run]
+source = ["flex2rijk"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 100
 
 [project.scripts]
 flex2rijk = "flex2rijk.cli:main"
@@ -71,13 +80,19 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "mypy>=1.19.1",
-    "pre-commit>=4.5.1",
-    "pylint>=4.0.5",
-    "pytest>=9.0.2",
-    "pytest-mock>=3.15.1",
-    "ruff>=0.15.8",
+    "mypy==2.4.0",
+    "pre-commit==4.6.2",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "pytest-mock==3.16.0",
+    "ruff==0.16.10",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flex2rijk"]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+# B404 only flags `import subprocess`. Each subprocess call is marked
+# `nosec B603` after review, so a new call is reported again.
+skips = ["B404"]
