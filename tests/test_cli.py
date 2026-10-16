@@ -344,6 +344,14 @@ def test_require_secure_keyring_accepteert_chainer(mocker: Any) -> None:
     cli._require_secure_keyring()
 
 
+def test_require_secure_keyring_zonder_bibliotheek(mocker: Any) -> None:
+    """Test dat een ontbrekende keyring hier ook afsluit."""
+    mocker.patch("flex2rijk.cli.keyring", None)
+    with pytest.raises(SystemExit) as exc:
+        cli._require_secure_keyring()
+    assert exc.value.code == 1
+
+
 def test_keyring_delete_zonder_bibliotheek(mocker: Any) -> None:
     """Test dat verwijderen zonder keyring niets doet."""
     mocker.patch("flex2rijk.cli.keyring", None)

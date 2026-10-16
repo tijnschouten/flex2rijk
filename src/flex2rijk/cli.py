@@ -162,6 +162,9 @@ def _keyring_set(account: str, password: str) -> None:
 
 def _require_secure_keyring() -> None:
     """Weiger backends die niets of alles onversleuteld opslaan."""
+    if not keyring:
+        print("[!] Keyring-bibliotheek niet gevonden.")
+        sys.exit(1)
     backend = keyring.get_keyring()
     # Een ChainerBackend schrijft naar zijn eerste (hoogst geprioriteerde) backend.
     effective = getattr(backend, "backends", [backend])
