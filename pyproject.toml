@@ -14,7 +14,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "playwright==1.63.0",
+    "playwright==1.64.0",
     "keyring==25.7.0",
 ]
 
