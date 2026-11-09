@@ -80,12 +80,12 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "mypy==2.4.0",
-    "pre-commit==4.6.2",
-    "pytest==9.1.1",
+    "mypy==2.4.1",
+    "pre-commit==4.7.0",
+    "pytest==9.2.0",
     "pytest-cov==7.1.0",
-    "pytest-mock==3.16.0",
-    "ruff==0.16.10",
+    "pytest-mock==3.17.0",
+    "ruff==0.17.3",
 ]
 
 [tool.hatch.build.targets.wheel]
